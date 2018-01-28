@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>janus 服务器搭建 | Gobert 的博客</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="" />
+    
+    <meta name="description" content="－－Ubuntu 下 Janus Server 搭建笔记 一 、简介Janus 是一个开源的，通过 C 语言实现了对 WebRTC 支持的 Gateway；Janus 自身实现得很简单，提供插件机制来支持不同的业务逻辑，配合官方自带插件就可以用来实现高效的 Media Server 服务。 本文主要介绍如何在 Ubuntu 16.04 下搭建起 janus 服务器，实现 janus 官方 Demo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="janus 服务器搭建">
+<meta property="og:url" content="http://yoursite.com/2018/01/28/janus-服务器搭建/index.html">
+<meta property="og:site_name" content="Gobert 的博客">
+<meta property="og:description" content="－－Ubuntu 下 Janus Server 搭建笔记 一 、简介Janus 是一个开源的，通过 C 语言实现了对 WebRTC 支持的 Gateway；Janus 自身实现得很简单，提供插件机制来支持不同的业务逻辑，配合官方自带插件就可以用来实现高效的 Media Server 服务。 本文主要介绍如何在 Ubuntu 16.04 下搭建起 janus 服务器，实现 janus 官方 Demo">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://ouratf4ym.bkt.clouddn.com/brower-android-test.png">
+<meta property="og:updated_time" content="2018-01-28T15:44:42.385Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="janus 服务器搭建">
+<meta name="twitter:description" content="－－Ubuntu 下 Janus Server 搭建笔记 一 、简介Janus 是一个开源的，通过 C 语言实现了对 WebRTC 支持的 Gateway；Janus 自身实现得很简单，提供插件机制来支持不同的业务逻辑，配合官方自带插件就可以用来实现高效的 Media Server 服务。 本文主要介绍如何在 Ubuntu 16.04 下搭建起 janus 服务器，实现 janus 官方 Demo">
+<meta name="twitter:image" content="http://ouratf4ym.bkt.clouddn.com/brower-android-test.png">
+    
+
+    
+        <link rel="alternate" href="/" title="Gobert 的博客" type="application/atom+xml" />
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+                                </li>
+                            
+                                        
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    未分类
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-janus-服务器搭建" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        janus 服务器搭建
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2018/01/28/janus-服务器搭建/" class="article-date">
+            <time datetime="2018-01-28T15:40:40.000Z" itemprop="datePublished">2018-01-28</time>
+        </a>
+    </div>
+
+                
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <p>－－Ubuntu 下 Janus Server 搭建笔记</p>
+<h1 id="一-、简介"><a href="#一-、简介" class="headerlink" title="一 、简介"></a>一 、简介</h1><p><a href="https://janus.conf.meetecho.com/index.html" target="_blank" rel="noopener">Janus</a> 是一个开源的，通过 C 语言实现了对 WebRTC 支持的 Gateway；Janus 自身实现得很简单，提供插件机制来支持不同的业务逻辑，配合官方自带插件就可以用来实现高效的 Media Server 服务。</p>
+<p>本文主要介绍如何在 Ubuntu 16.04 下搭建起 janus 服务器，实现 janus 官方 Demo 浏览器与 Android APP Demo（janus-gateway-android）之间的音视频通话。</p>
+<p>效果图如下：</p>
+<p><img src="http://ouratf4ym.bkt.clouddn.com/brower-android-test.png" alt=""></p>
+<p>Janus 官网：<a href="https://janus.conf.meetecho.com/index.html" target="_blank" rel="noopener">https://janus.conf.meetecho.com/index.html</a></p>
+<p>参考文档：<a href="https://github.com/meetecho/janus-gateway" target="_blank" rel="noopener">https://github.com/meetecho/janus-gateway</a></p>
+<h1 id="二、-下载编译-Janus"><a href="#二、-下载编译-Janus" class="headerlink" title="二、 下载编译 Janus"></a>二、 下载编译 Janus</h1><p>编译运行 Janus Server 需要依赖较多的一些第三方库，而这些依赖库在 Ubuntu 下主要通过 aptitude 进行安装，首先通过安装 aptitude：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install aptitude</span><br></pre></td></tr></table></figure>
+<h2 id="1、-安装依赖"><a href="#1、-安装依赖" class="headerlink" title="1、 安装依赖"></a>1、 安装依赖</h2><p>Ubuntu 下通过 aptitude 批量安装依赖工具包，这里建议 Ubuntu 镜像源（/etc/apt/source.list）不要为了追求速度而改用了国内的某些镜像源，如 网易 163，这可能会导致某些工具包下载失败，建议依然使用官方自带的镜像源。</p>
+<p>批量安装命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo aptitude install libmicrohttpd-dev libjansson-dev libnice-dev \</span><br><span class="line">	libssl-dev libsrtp-dev libsofia-sip-ua-dev libglib2.0-dev \</span><br><span class="line">	libopus-dev libogg-dev libcurl4-openssl-dev pkg-config gengetopt \</span><br><span class="line">	libtool automake</span><br></pre></td></tr></table></figure>
+<p>如果出现某个工具包下载失败，请修改镜像源为官方地址，并执行以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update &amp;&amp; sudo apt-get upgrade</span><br></pre></td></tr></table></figure>
+<p>以更新镜像源，完成后重新安装。</p>
+<h2 id="2、-安装-WebSocket"><a href="#2、-安装-WebSocket" class="headerlink" title="2、 安装 WebSocket"></a>2、 安装 WebSocket</h2><p>janus 支持 WebSocket 是可选项，如果不安装，编译 janus 时，默认不支持 WebSocket 的链接请求，而 Android APP Demo 是通过 WebSocket 与 janus 进行通信的，因为我们希望 Android APP Demo 能与浏览器（HTTP）进行视频通话，所以就必须要在编译 janus 时支持 WebSocket。</p>
+<p>依次执行以下命令，分别进行下载，编译，安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/warmcat/libwebsockets.git</span><br><span class="line">cd libwebsockets</span><br><span class="line">mkdir build</span><br><span class="line">cd build</span><br><span class="line">cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_C_FLAGS=&quot;-fpic&quot; ..</span><br><span class="line">make &amp;&amp; sudo make install</span><br></pre></td></tr></table></figure>
+<p>安装成功后，在编译 janus 时，janus 默认会增加对 WebSocket 的集成，或者通过增加编译参数 –enable-websockets 打开 WebSocket 开关，或 –disable-websockets 关闭 WebSocket 开关。</p>
+<h2 id="3、-安装-Http-Server"><a href="#3、-安装-Http-Server" class="headerlink" title="3、 安装 Http Server"></a>3、 安装 Http Server</h2><p>Janus 源码目录下的 html 下自带 Web Demo（html &amp; JavaScript ），Janus 编译完成并 Start 以后，需要通过 http server 访问 Janus Web Demo，其中包括：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Echo Test:             yes</span><br><span class="line">Streaming:             yes</span><br><span class="line">Video Call:            yes</span><br><span class="line">SIP Gateway:           yes</span><br><span class="line">Audio Bridge:          yes</span><br><span class="line">Video Room:            yes</span><br><span class="line">Voice Mail:            yes</span><br><span class="line">Record&amp;Play:           yes</span><br><span class="line">Text Room:             yes</span><br></pre></td></tr></table></figure>
+<p>以上 janus 插件均可通过相应的 http 链接进行访问体验。​        </p>
+<p>以下介绍一种快速，便捷，轻巧的 HTTP Server 安装方式：</p>
+<p>通过 Node.js (基于 Chrome V8 引擎的 JavaScript 运行环境) 进行安装，首先安装 Node.js：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nodejs</span><br></pre></td></tr></table></figure>
+<p>安装成功后，通过 npm (npm 是 Node.js 的包管理器，是全球最大的开源库生态系统) 进行安装 httpserver：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm -g install http-server</span><br></pre></td></tr></table></figure>
+<p>启动方式：</p>
+<p>进入到 html 目录，执行 http-server 命令即可，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">gobert@gobert-ThinkPad-X230:~/OpenSource/janus-gateway$ cd html/</span><br><span class="line">gobert@gobert-ThinkPad-X230:~/OpenSource/janus-gateway/html$ http-server </span><br><span class="line">Starting up http-server, serving ./</span><br><span class="line">Available on:</span><br><span class="line">  http://127.0.0.1:8080</span><br><span class="line">  http://100.100.32.64:8080</span><br><span class="line">Hit CTRL-C to stop the server</span><br></pre></td></tr></table></figure>
+<p>输入 http url 即可访问。</p>
+<p><strong>注：需首先 build &amp; start janus Server！</strong></p>
+<h2 id="4、-安装-libsrtp"><a href="#4、-安装-libsrtp" class="headerlink" title="4、 安装 libsrtp"></a>4、 安装 libsrtp</h2><p>Janus 需要至少 version 1.5 以上的 libsrtp，如果系统中已经安装了 libsrtp，则首先卸载后，手动安装新版本，这里我们安装 libsrtp 2.0，依次执行以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/cisco/libsrtp/archive/v2.0.0.tar.gz</span><br><span class="line">tar xfv v2.0.0.tar.gz</span><br><span class="line">cd libsrtp-2.0.0</span><br><span class="line">./configure --prefix=/usr --enable-openssl</span><br><span class="line">make shared_library &amp;&amp; sudo make install</span><br></pre></td></tr></table></figure>
+<h2 id="5、-编译-Janus"><a href="#5、-编译-Janus" class="headerlink" title="5、 编译 Janus"></a>5、 编译 Janus</h2><p>通过 Git 下载 Janus 源码，并编译安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/meetecho/janus-gateway.git</span><br><span class="line">sh autogen.sh</span><br><span class="line">./configure --prefix=/opt/janus --enable-websockets --enable-docs</span><br><span class="line">make</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+<p>configure 执行成功后，会输出 janus 所支持的 协议及插件，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">libsrtp version:           2.0.x</span><br><span class="line">SSL/crypto library:        OpenSSL</span><br><span class="line">DTLS set-timeout:          not available</span><br><span class="line">DataChannels support:      no</span><br><span class="line">Recordings post-processor: no</span><br><span class="line">TURN REST API client:      yes</span><br><span class="line">Doxygen documentation:     no</span><br><span class="line">Transports:</span><br><span class="line">    REST (HTTP/HTTPS):     yes                //支持 HTTP 访问</span><br><span class="line">    WebSockets:            yes (new API)	  //支持 WebSocket 访问</span><br><span class="line">    RabbitMQ:              no</span><br><span class="line">    MQTT:                  no</span><br><span class="line">    Unix Sockets:          yes</span><br><span class="line">Plugins:</span><br><span class="line">    Echo Test:             yes</span><br><span class="line">    Streaming:             yes</span><br><span class="line">    Video Call:            yes</span><br><span class="line">    SIP Gateway:           yes</span><br><span class="line">    Audio Bridge:          yes</span><br><span class="line">    Video Room:            yes</span><br><span class="line">    Voice Mail:            yes</span><br><span class="line">    Record&amp;Play:           yes</span><br><span class="line">    Text Room:             yes</span><br><span class="line">Event handlers:</span><br><span class="line">    Sample event handler:  yes</span><br></pre></td></tr></table></figure>
+<h2 id="6、-运行-Janus"><a href="#6、-运行-Janus" class="headerlink" title="6、 运行 Janus"></a>6、 运行 Janus</h2><p>如果全部安装以上步骤进行编译的 janus ，那么 janus 的全局配置文件存放目录为 ： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/opt/janus/etc/janus/janus.cfg</span><br></pre></td></tr></table></figure>
+<p>或者在启动 janus 时，加上相应的启动参数，参数可通过 janus –help 查看；</p>
+<p>janus 默认的配置中是没有 WebSocket 的配置的，直接启动 Janus 会因没有 WebSocket 配置文件而报错。幸运的是在配置目录中 Janus 已经给我们提供了一个 WebSocket 的示例配置文件 ： janus.transport.websockets.cfg.sample，（如果我们要通过 WebSocket 连接 Janus，则需要有个 WebSocket 的配置文件）这里我们可以直接拷贝这个示例文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cp janus.transport.websockets.cfg.sample janus.transport.websockets.cfg</span><br></pre></td></tr></table></figure>
+<p>通过查看此配置文件，可以得知 Janus 默认的 WebSocket 的端口号为 8188，<strong>记住这个端口号，在 Android APP Demo 中会使用到！</strong></p>
+<p>启动 Janus：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/opt/janus/bin/janus --debug-level=7 --log-file=$HOME/janus-log</span><br></pre></td></tr></table></figure>
+<p>根据需要可以选择是否加上后面两个启动参数。</p>
+<h1 id="三、-视频通话联调测试"><a href="#三、-视频通话联调测试" class="headerlink" title="三、 视频通话联调测试"></a>三、 视频通话联调测试</h1><p>我们使用 PC 下的 浏览器 与 Android APP Demo 进行联调。</p>
+<h2 id="1、-启动-Web-Demo"><a href="#1、-启动-Web-Demo" class="headerlink" title="1、 启动 Web Demo"></a>1、 启动 Web Demo</h2><p>进入到 janus 目录下的 html 目录，启动 http-server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">gobert@gobert-ThinkPad-X230:~$ cd ~/OpenSource/janus-gateway/html/</span><br><span class="line">gobert@gobert-ThinkPad-X230:~/OpenSource/janus-gateway/html$ http-server </span><br><span class="line">Starting up http-server, serving ./</span><br><span class="line">Available on:</span><br><span class="line">  http://127.0.0.1:8080</span><br><span class="line">  http://100.100.32.64:8080</span><br><span class="line">Hit CTRL-C to stop the server</span><br></pre></td></tr></table></figure>
+<p>这样外部便可以通过 <a href="http://100.100.32.64:8080" target="_blank" rel="noopener">http://100.100.32.64:8080</a> 进行访问了，进入首页后，找到 videoRoom，Start</p>
+<h2 id="2、-启动-Android-APP-Demo"><a href="#2、-启动-Android-APP-Demo" class="headerlink" title="2、 启动 Android APP Demo"></a>2、 启动 Android APP Demo</h2><ul>
+<li>下载:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:Computician/janus-gateway-android.git</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>修改源代码</p>
+<p>janus-gateway-android 支持两个 Demo 测试：EchoTest 和 VideoRoom，默认情况下会启用 EchoTest，这个 Demo 仅仅是连接服务器后，将数据再发回本地进行本地测试，我们要改为与房间内的其它用户（浏览器）进行视频通话，则需要启用另外一个测试用例 VideoRoom，按照如下方式修改代码：</p>
+<p>JanusActivity.java 类中新增 VideoRenderer.Callbacks 数组（视频房间中可能会有多人）,暂定义为 2 个，实际连接人数不要超过此数字：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private VideoRenderer.Callbacks remoteRenders[] = new VideoRenderer.Callbacks[1];</span><br></pre></td></tr></table></figure>
+<p>OnCreate 方法中初始化以上定义的数组：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">remoteRenders[0] = VideoRendererGui.create(0, 0, 25, 25, VideoRendererGui.ScalingType.SCALE_ASPECT_FILL, true);</span><br></pre></td></tr></table></figure>
+<p>APP Demo 是通过 WebSocket 连接 Janus Server，所以修改 VideoRoomTest.java 中 JANUS_URL 地址为我们启动的 Janus 服务器 WebSocket 地址，IP 为 janus server 地址，端口默认为 8188：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private final String JANUS_URI = &quot;ws://100.100.32.64:8188&quot;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译安装</p>
+<p>通过 Android studio 进行编译安装到 Android 机。</p>
+</li>
+</ul>
+<h2 id="3、联调测试"><a href="#3、联调测试" class="headerlink" title="3、联调测试"></a>3、联调测试</h2><p>Janus Server 默认会开启两个视频房间：1234 和 5678，分别使用 VP8 和 VP9 视频编码器，所以我们通过 Brower 和 Android APP Demo 进行联调测试时，暂不需要设置房间 ID。</p>
+<p>效果图：</p>
+<p><img src="http://ouratf4ym.bkt.clouddn.com/brower-android-test.png" alt=""></p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://yoursite.com/2018/01/28/janus-服务器搭建/" data-id="cjcyyjmce0001b8tzntbxdzmt" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>关注我 :</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="google-plus" href="/" target="_blank">
+                        <i class="icon fa fa-google-plus"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/cgb0210" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2018/01/28/2018-目标/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">上一篇</strong>
+        <p class="article-nav-title">2018 目标</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/01/28/janus-服务器搭建/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://ouratf4ym.bkt.clouddn.com/brower-android-test.png)" alt="janus 服务器搭建" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/01/28/janus-服务器搭建/" class="title">janus 服务器搭建</a></p>
+                            <p class="item-date"><time datetime="2018-01-28T15:40:40.000Z" itemprop="datePublished">2018-01-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/01/28/2018-目标/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://p39k4w2vs.bkt.clouddn.com/2018.png)" alt="2018 目标" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/01/28/2018-目标/" class="title">2018 目标</a></p>
+                            <p class="item-date"><time datetime="2018-01-28T07:50:35.000Z" itemprop="datePublished">2018-01-28</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2018 John Doe</p>
+                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://yoursite.com/2018/01/28/janus-服务器搭建/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
