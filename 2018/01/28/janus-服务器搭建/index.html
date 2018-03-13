@@ -16,12 +16,12 @@
 <meta property="og:site_name" content="Gobert 的博客">
 <meta property="og:description" content="－－Ubuntu 下 Janus Server 搭建笔记 一 、简介Janus 是一个开源的，通过 C 语言实现了对 WebRTC 支持的 Gateway；Janus 自身实现得很简单，提供插件机制来支持不同的业务逻辑，配合官方自带插件就可以用来实现高效的 Media Server 服务。 本文主要介绍如何在 Ubuntu 16.04 下搭建起 janus 服务器，实现 janus 官方 Demo">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://ouratf4ym.bkt.clouddn.com/brower-android-test.png">
-<meta property="og:updated_time" content="2018-01-29T01:11:16.199Z">
+<meta property="og:image" content="http://yoursite.com/images/Janus服务器搭建/brower-android-test.png">
+<meta property="og:updated_time" content="2018-03-13T00:57:08.290Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="janus 服务器搭建">
 <meta name="twitter:description" content="－－Ubuntu 下 Janus Server 搭建笔记 一 、简介Janus 是一个开源的，通过 C 语言实现了对 WebRTC 支持的 Gateway；Janus 自身实现得很简单，提供插件机制来支持不同的业务逻辑，配合官方自带插件就可以用来实现高效的 Media Server 服务。 本文主要介绍如何在 Ubuntu 16.04 下搭建起 janus 服务器，实现 janus 官方 Demo">
-<meta name="twitter:image" content="http://ouratf4ym.bkt.clouddn.com/brower-android-test.png">
+<meta name="twitter:image" content="http://yoursite.com/images/Janus服务器搭建/brower-android-test.png">
     
 
     
@@ -136,7 +136,7 @@
 <h1 id="一-、简介"><a href="#一-、简介" class="headerlink" title="一 、简介"></a>一 、简介</h1><p><a href="https://janus.conf.meetecho.com/index.html" target="_blank" rel="noopener">Janus</a> 是一个开源的，通过 C 语言实现了对 WebRTC 支持的 Gateway；Janus 自身实现得很简单，提供插件机制来支持不同的业务逻辑，配合官方自带插件就可以用来实现高效的 Media Server 服务。</p>
 <p>本文主要介绍如何在 Ubuntu 16.04 下搭建起 janus 服务器，实现 janus 官方 Demo 浏览器与 Android APP Demo（janus-gateway-android）之间的音视频通话。</p>
 <p>效果图如下：</p>
-<p><img src="http://ouratf4ym.bkt.clouddn.com/brower-android-test.png" alt=""></p>
+<p><img src="/images/Janus服务器搭建/brower-android-test.png" alt=""></p>
 <p>Janus 官网：<a href="https://janus.conf.meetecho.com/index.html" target="_blank" rel="noopener">https://janus.conf.meetecho.com/index.html</a></p>
 <p>参考文档：<a href="https://github.com/meetecho/janus-gateway" target="_blank" rel="noopener">https://github.com/meetecho/janus-gateway</a></p>
 <h1 id="二、-下载编译-Janus"><a href="#二、-下载编译-Janus" class="headerlink" title="二、 下载编译 Janus"></a>二、 下载编译 Janus</h1><p>编译运行 Janus Server 需要依赖较多的一些第三方库，而这些依赖库在 Ubuntu 下主要通过 aptitude 进行安装，首先通过安装 aptitude：</p>
@@ -203,7 +203,7 @@
 </ul>
 <h2 id="3、联调测试"><a href="#3、联调测试" class="headerlink" title="3、联调测试"></a>3、联调测试</h2><p>Janus Server 默认会开启两个视频房间：1234 和 5678，分别使用 VP8 和 VP9 视频编码器，所以我们通过 Brower 和 Android APP Demo 进行联调测试时，暂不需要设置房间 ID。</p>
 <p>效果图：</p>
-<p><img src="http://ouratf4ym.bkt.clouddn.com/brower-android-test.png" alt=""></p>
+<p><img src="/images/Janus服务器搭建/brower-android-test.png" alt=""></p>
 
         </div>
         <footer class="article-footer">
@@ -211,7 +211,7 @@
 
 
 
-    <a data-url="http://yoursite.com/2018/01/28/janus-服务器搭建/" data-id="cjeoxud6e000g7sbw6qz6316v" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://yoursite.com/2018/01/28/janus-服务器搭建/" data-id="cjeoy2fpb000cqgbwqk981rnt" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
