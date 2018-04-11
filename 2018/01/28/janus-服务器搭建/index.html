@@ -1,138 +1,105 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    
-    <title>janus 服务器搭建 | Gobert 的博客</title>
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    
-        <meta name="keywords" content="" />
-    
-    <meta name="description" content="－－Ubuntu 下 Janus Server 搭建笔记 一 、简介Janus 是一个开源的，通过 C 语言实现了对 WebRTC 支持的 Gateway；Janus 自身实现得很简单，提供插件机制来支持不同的业务逻辑，配合官方自带插件就可以用来实现高效的 Media Server 服务。 本文主要介绍如何在 Ubuntu 16.04 下搭建起 janus 服务器，实现 janus 官方 Demo">
+  <meta charset="utf-8">
+  
+  <title>janus 服务器搭建 | Gobert 的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="－－Ubuntu 下 Janus Server 搭建笔记 一 、简介Janus 是一个开源的，通过 C 语言实现了对 WebRTC 支持的 Gateway；Janus 自身实现得很简单，提供插件机制来支持不同的业务逻辑，配合官方自带插件就可以用来实现高效的 Media Server 服务。 本文主要介绍如何在 Ubuntu 16.04 下搭建起 janus 服务器，实现 janus 官方 Demo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="janus 服务器搭建">
-<meta property="og:url" content="http://yoursite.com/2018/01/28/janus-服务器搭建/index.html">
+<meta property="og:url" content="https://zzlc.github.io/2018/01/28/janus-服务器搭建/index.html">
 <meta property="og:site_name" content="Gobert 的博客">
 <meta property="og:description" content="－－Ubuntu 下 Janus Server 搭建笔记 一 、简介Janus 是一个开源的，通过 C 语言实现了对 WebRTC 支持的 Gateway；Janus 自身实现得很简单，提供插件机制来支持不同的业务逻辑，配合官方自带插件就可以用来实现高效的 Media Server 服务。 本文主要介绍如何在 Ubuntu 16.04 下搭建起 janus 服务器，实现 janus 官方 Demo">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/images/Janus服务器搭建/brower-android-test.png">
+<meta property="og:image" content="https://zzlc.github.io/images/Janus服务器搭建/brower-android-test.png">
+<meta property="og:image" content="https://zzlc.github.io/images/Janus服务器搭建/brower-android-test.png">
 <meta property="og:updated_time" content="2018-03-13T00:57:08.290Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="janus 服务器搭建">
 <meta name="twitter:description" content="－－Ubuntu 下 Janus Server 搭建笔记 一 、简介Janus 是一个开源的，通过 C 语言实现了对 WebRTC 支持的 Gateway；Janus 自身实现得很简单，提供插件机制来支持不同的业务逻辑，配合官方自带插件就可以用来实现高效的 Media Server 服务。 本文主要介绍如何在 Ubuntu 16.04 下搭建起 janus 服务器，实现 janus 官方 Demo">
-<meta name="twitter:image" content="http://yoursite.com/images/Janus服务器搭建/brower-android-test.png">
+<meta name="twitter:image" content="https://zzlc.github.io/images/Janus服务器搭建/brower-android-test.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Gobert 的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
     
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
 
-    
-        <link rel="alternate" href="/" title="Gobert 的博客" type="application/atom+xml" />
-    
-
-    
-
-    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
-    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
-
-    <link rel="stylesheet" href="/css/style.css">
-
-    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
-    
-    
-        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
-    
-    
-        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
-    
-    
-    
-
-
-    <script>
-        var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?f53a8fa96c04eeea762b3a119464a319";
-          var s = document.getElementsByTagName("script")[0]; 
-          s.parentNode.insertBefore(hm, s);
-        })();
-        </script>
-        
 </head>
 
 <body>
+  <div id="container">
     <div id="wrap">
-        <header id="header">
-    <div id="header-outer" class="outer">
-        <div class="container">
-            <div class="container-inner">
-                <div id="header-title">
-                    <h1 class="logo-wrap">
-                        <a href="/" class="logo"></a>
-                    </h1>
-                    
-                </div>
-                <div id="header-inner" class="nav-container">
-                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
-                    <div class="nav-container-inner">
-                        <ul id="main-nav">
-                            
-                                <li class="main-nav-list-item" >
-                                    <a class="main-nav-list-link" href="/">主页</a>
-                                </li>
-                            
-                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/C/">C++</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/Life/">Life</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/OPC/">OPC</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/RTC/">RTC</a></li></ul>
-                                    
-                                <li class="main-nav-list-item" >
-                                    <a class="main-nav-list-link" href="/about/index.html">关于</a>
-                                </li>
-                            
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zzlc.github.io"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
     </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Gobert 的博客</a>
+      </h1>
+      
+    </div>
+  </div>
 </header>
-        <div class="container">
-            <div class="main-body container-inner">
-                <div class="main-body-inner">
-                    <section id="main">
-                        <div class="main-body-header">
-    <h1 class="header">
+      <div class="outer">
+        <section id="main"><article id="post-janus-服务器搭建" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/28/janus-服务器搭建/" class="article-date">
+  <time datetime="2018-01-28T15:40:40.000Z" itemprop="datePublished">2018-01-28</time>
+</a>
     
-    <a class="page-title-link" href="/categories/RTC/">RTC</a>
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/RTC/">RTC</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      janus 服务器搭建
     </h1>
-</div>
-                        <div class="main-body-content">
-                            <article id="post-janus-服务器搭建" class="article article-single article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            <header class="article-header">
-                
-    
-        <h1 class="article-title" itemprop="name">
-        janus 服务器搭建
-        </h1>
-    
+  
 
-            </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
         
-        
-            <div class="article-meta">
-                
-    <div class="article-date">
-        <a href="/2018/01/28/janus-服务器搭建/" class="article-date">
-            <time datetime="2018-01-28T15:40:40.000Z" itemprop="datePublished">2018-01-28</time>
-        </a>
-    </div>
-
-                
-            </div>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-            <p>－－Ubuntu 下 Janus Server 搭建笔记</p>
+        <p>－－Ubuntu 下 Janus Server 搭建笔记</p>
 <h1 id="一-、简介"><a href="#一-、简介" class="headerlink" title="一 、简介"></a>一 、简介</h1><p><a href="https://janus.conf.meetecho.com/index.html" target="_blank" rel="noopener">Janus</a> 是一个开源的，通过 C 语言实现了对 WebRTC 支持的 Gateway；Janus 自身实现得很简单，提供插件机制来支持不同的业务逻辑，配合官方自带插件就可以用来实现高效的 Media Server 服务。</p>
 <p>本文主要介绍如何在 Ubuntu 16.04 下搭建起 janus 服务器，实现 janus 官方 Demo 浏览器与 Android APP Demo（janus-gateway-android）之间的音视频通话。</p>
 <p>效果图如下：</p>
@@ -205,387 +172,230 @@
 <p>效果图：</p>
 <p><img src="/images/Janus服务器搭建/brower-android-test.png" alt=""></p>
 
-        </div>
-        <footer class="article-footer">
-            <!-- 
-
-
-
-    <a data-url="http://yoursite.com/2018/01/28/janus-服务器搭建/" data-id="cjeoy2fpb000cqgbwqk981rnt" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
-<script>
-    (function ($) {
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zzlc.github.io/2018/01/28/janus-服务器搭建/" data-id="cjfd2uph9000ckwbwzckzcdz2" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+ <script src="/jquery/jquery.min.js"></script>
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
                 }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
- -->
-        </footer>
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
     </div>
-</article>
+  </div>
 
-    <section id="comments">
-    <!-- 
-        
-    <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-
-     -->
-    </section>
-
-
-                        </div>
-                    </section>
-                    <aside id="sidebar">
-    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
-    <!-- <div class="sidebar-top">
-        <p>关注我 :</p>
-        <ul class="social-links">
-            
-                
-                <li>
-                    <a class="social-tooltip" title="twitter" href="/" target="_blank">
-                        <i class="icon fa fa-twitter"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="facebook" href="/" target="_blank">
-                        <i class="icon fa fa-facebook"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="google-plus" href="/" target="_blank">
-                        <i class="icon fa fa-google-plus"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="github" href="https://github.com/cgb0210" target="_blank">
-                        <i class="icon fa fa-github"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="weibo" href="/" target="_blank">
-                        <i class="icon fa fa-weibo"></i>
-                    </a>
-                </li>
-                
-            
-                
-                <li>
-                    <a class="social-tooltip" title="rss" href="/" target="_blank">
-                        <i class="icon fa fa-rss"></i>
-                    </a>
-                </li>
-                
-            
-        </ul>
-    </div> -->
     
-        <!-- 
 <nav id="article-nav">
-    
-        <a href="/2018/01/28/Windows-下编译-WebRTC/" id="article-nav-newer" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">下一篇</strong>
-        <p class="article-nav-title">
+  
+    <a href="/2018/01/28/Windows-下编译-WebRTC/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
         
-            Windows 下编译 WebRTC
+          Windows 下编译 WebRTC
         
-        </p>
-        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+      </div>
     </a>
-    
-    
-        <a href="/2018/01/28/2018-目标/" id="article-nav-older" class="article-nav-link-wrap">
-        <strong class="article-nav-caption">上一篇</strong>
-        <p class="article-nav-title">2018 目标</p>
-        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
-        </a>
-    
+  
+  
+    <a href="/2018/01/28/2018-目标/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">2018 目标</div>
+    </a>
+  
 </nav>
- -->
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
     
-    <div class="widgets-container">
-        
-            
-                
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">分类</h3>
-        <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OPC/">OPC</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/RTC/">RTC</a><span class="category-list-count">2</span></li></ul>
-        </div>
-    </div>
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+       
+      
+      
+  </div>
+ 
+  
 
+</section>
+           
+    <aside id="sidebar">
+  
+    
 
-            
-                
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">归档</h3>
-        <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">4</span></li></ul>
-        </div>
-    </div>
-
-
-            
-                
+  
+    
     <div class="widget-wrap">
-        <h3 class="widget-title">最新文章</h3>
-        <div class="widget">
-            <ul id="recent-post" class="">
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2018/03/12/BOOST-在-Windows-下通过-VS-进行编译/" class="thumbnail">
     
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/C/">C++</a></p>
-                            <p class="item-title"><a href="/2018/03/12/BOOST-在-Windows-下通过-VS-进行编译/" class="title">BOOST 在 Windows 下通过 VS 进行编译</a></p>
-                            <p class="item-date"><time datetime="2018-03-12T06:19:16.000Z" itemprop="datePublished">2018-03-12</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2018/03/02/C-开源日志库-spdlog/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/C/">C++</a></p>
-                            <p class="item-title"><a href="/2018/03/02/C-开源日志库-spdlog/" class="title">C++ 开源日志库 spdlog</a></p>
-                            <p class="item-date"><time datetime="2018-03-01T16:04:36.000Z" itemprop="datePublished">2018-03-02</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2018/02/26/Windows-10-安装-NetFrameWork-3-5/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/OPC/">OPC</a></p>
-                            <p class="item-title"><a href="/2018/02/26/Windows-10-安装-NetFrameWork-3-5/" class="title">Windows 10 安装 .NetFrameWork 3.5</a></p>
-                            <p class="item-date"><time datetime="2018-02-26T06:05:19.000Z" itemprop="datePublished">2018-02-26</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2018/02/22/Win10 开发部署 XP 或 Server 2003 的应用程序/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/OPC/">OPC</a></p>
-                            <p class="item-title"><a href="/2018/02/22/Win10 开发部署 XP 或 Server 2003 的应用程序/" class="title">Windows 10 开发部署支持 Windows XP 和 Windows Server 2003 的应用程序</a></p>
-                            <p class="item-date"><time datetime="2018-02-22T03:47:18.000Z" itemprop="datePublished">2018-02-22</time></p>
-                        </div>
-                    </li>
-                
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2018/01/29/GitHub-博客搭建记录/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/Life/">Life</a></p>
-                            <p class="item-title"><a href="/2018/01/29/GitHub-博客搭建记录/" class="title">GitHub 博客搭建记录</a></p>
-                            <p class="item-date"><time datetime="2018-01-29T01:24:07.000Z" itemprop="datePublished">2018-01-29</time></p>
-                        </div>
-                    </li>
-                
-            </ul>
-        </div>
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一-、简介"><span class="toc-number">1.</span> <span class="toc-text">一 、简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、-下载编译-Janus"><span class="toc-number">2.</span> <span class="toc-text">二、 下载编译 Janus</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、-安装依赖"><span class="toc-number">2.1.</span> <span class="toc-text">1、 安装依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、-安装-WebSocket"><span class="toc-number">2.2.</span> <span class="toc-text">2、 安装 WebSocket</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、-安装-Http-Server"><span class="toc-number">2.3.</span> <span class="toc-text">3、 安装 Http Server</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、-安装-libsrtp"><span class="toc-number">2.4.</span> <span class="toc-text">4、 安装 libsrtp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5、-编译-Janus"><span class="toc-number">2.5.</span> <span class="toc-text">5、 编译 Janus</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6、-运行-Janus"><span class="toc-number">2.6.</span> <span class="toc-text">6、 运行 Janus</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、-视频通话联调测试"><span class="toc-number">3.</span> <span class="toc-text">三、 视频通话联调测试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、-启动-Web-Demo"><span class="toc-number">3.1.</span> <span class="toc-text">1、 启动 Web Demo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、-启动-Android-APP-Demo"><span class="toc-number">3.2.</span> <span class="toc-text">2、 启动 Android APP Demo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、联调测试"><span class="toc-number">3.3.</span> <span class="toc-text">3、联调测试</span></a></li></ol></li></ol>
+          </div>
+      </div>
     </div>
 
-            
-                
+  
+    
 
-            
-                
+  
+    
+  
+    
+  
+    
 
-            
-                
-    <div class="widget-wrap widget-list">
-        <h3 class="widget-title">链接</h3>
-        <div class="widget">
-            <ul>
-                
-                    <li>
-                        <a href="https://www.jianshu.com/u/f547ea0c9dd9">我的简书</a>
-                    </li>
-                
-            </ul>
-        </div>
-    </div>
+  
+    
+  
+    <!--微信公众号二维码-->
 
 
-            
-        
-    </div>
+  
 </aside>
-                </div>
-            </div>
-        </div>
-        <footer id="footer">
-    <div class="container">
-        <div class="container-inner">
-            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
-            <div class="credit">
-                <h1 class="logo-wrap">
-                    <a href="/" class="logo"></a>
-                </h1>
-                <p>&copy; 2018 John Doe</p>
-                <p>Powered by <a href="//hexo.io/" target="_blank">Hexo</a>. Theme by <a href="//github.com/ppoffice" target="_blank">PPOffice</a></p>
-            </div>
-        </div>
-    </div>
-</footer>
 
-        
-    
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2018 陈高报&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;18621626807@163.com
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
     <script>
-    var disqus_shortname = 'hexo-theme-hueman';
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "e2fb4051c49842688ce669e634bc983f",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
     
-    
-    var disqus_url = 'http://yoursite.com/2018/01/28/janus-服务器搭建/';
-    
-    (function() {
-    var dsq = document.createElement('script');
-    dsq.type = 'text/javascript';
-    dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
+
+  
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
     </script>
 
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
 
 
-
-    
-        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
-        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
-    
-    
-        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
-    
-    
+ <script src="/js/is.js"></script>
 
 
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
-<!-- Custom Scripts -->
-<script src="/js/main.js"></script>
 
-    </div>
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
 </body>
 </html>
