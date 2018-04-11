@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>WebRtc 源码分析之 rtc::Thread | Gobert 的博客</title>
+  <title>WebRTC源码分析之 rtc::Thread | Gobert 的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="rtc::Thread 为 WebRtc 内部实现的线程类，在 WebRtc 中有广泛的应用，WebRtc 内部 work thread、signal thread 等均要求为此线程类对象；在某些功能模块的使用上，有需在工作线程中创建的要求，比如 ADM 的创建必须要在 WebRtc 工作线程中进行。  接口介绍类的声明和定义均位于 WebRtc 源码目录中的 rtc_base 目录下，分别为t">
-<meta name="keywords" content="WebRtc rtc::Thread">
+  <meta name="description" content="rtc::Thread 为 WebRTC内部实现的线程类，在 WebRTC中有广泛的应用，WebRTC内部 work thread、signal thread 等均要求为此线程类对象；在某些功能模块的使用上，有需在工作线程中创建的要求，比如 ADM 的创建必须要在 WebRTC工作线程中进行。  接口介绍类的声明和定义均位于 WebRTC源码目录中的 rtc_base 目录下，分别为thread">
+<meta name="keywords" content="WebRTC::Thread">
 <meta property="og:type" content="article">
-<meta property="og:title" content="WebRtc 源码分析之 rtc::Thread">
+<meta property="og:title" content="WebRTC源码分析之 rtc::Thread">
 <meta property="og:url" content="https://zzlc.github.io/2018/03/30/WebRtc-源码分析之-rtc-Thread/index.html">
 <meta property="og:site_name" content="Gobert 的博客">
-<meta property="og:description" content="rtc::Thread 为 WebRtc 内部实现的线程类，在 WebRtc 中有广泛的应用，WebRtc 内部 work thread、signal thread 等均要求为此线程类对象；在某些功能模块的使用上，有需在工作线程中创建的要求，比如 ADM 的创建必须要在 WebRtc 工作线程中进行。  接口介绍类的声明和定义均位于 WebRtc 源码目录中的 rtc_base 目录下，分别为t">
+<meta property="og:description" content="rtc::Thread 为 WebRTC内部实现的线程类，在 WebRTC中有广泛的应用，WebRTC内部 work thread、signal thread 等均要求为此线程类对象；在某些功能模块的使用上，有需在工作线程中创建的要求，比如 ADM 的创建必须要在 WebRTC工作线程中进行。  接口介绍类的声明和定义均位于 WebRTC源码目录中的 rtc_base 目录下，分别为thread">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-29T23:49:39.727Z">
+<meta property="og:updated_time" content="2018-04-11T22:32:52.040Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="WebRtc 源码分析之 rtc::Thread">
-<meta name="twitter:description" content="rtc::Thread 为 WebRtc 内部实现的线程类，在 WebRtc 中有广泛的应用，WebRtc 内部 work thread、signal thread 等均要求为此线程类对象；在某些功能模块的使用上，有需在工作线程中创建的要求，比如 ADM 的创建必须要在 WebRtc 工作线程中进行。  接口介绍类的声明和定义均位于 WebRtc 源码目录中的 rtc_base 目录下，分别为t">
+<meta name="twitter:title" content="WebRTC源码分析之 rtc::Thread">
+<meta name="twitter:description" content="rtc::Thread 为 WebRTC内部实现的线程类，在 WebRTC中有广泛的应用，WebRTC内部 work thread、signal thread 等均要求为此线程类对象；在某些功能模块的使用上，有需在工作线程中创建的要求，比如 ADM 的创建必须要在 WebRTC工作线程中进行。  接口介绍类的声明和定义均位于 WebRTC源码目录中的 rtc_base 目录下，分别为thread">
   
     <link rel="alternate" href="/atom.xml" title="Gobert 的博客" type="application/atom+xml">
   
@@ -87,7 +87,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      WebRtc 源码分析之 rtc::Thread
+      WebRTC源码分析之 rtc::Thread
     </h1>
   
 
@@ -98,9 +98,9 @@
         <!-- Table of Contents -->
         
         <blockquote>
-<p><code>rtc::Thread</code> 为 WebRtc 内部实现的线程类，在 WebRtc 中有广泛的应用，WebRtc 内部 work thread、signal thread 等均要求为此线程类对象；在某些功能模块的使用上，有需在工作线程中创建的要求，比如 ADM 的创建必须要在 WebRtc 工作线程中进行。</p>
+<p><code>rtc::Thread</code> 为 WebRTC内部实现的线程类，在 WebRTC中有广泛的应用，WebRTC内部 work thread、signal thread 等均要求为此线程类对象；在某些功能模块的使用上，有需在工作线程中创建的要求，比如 ADM 的创建必须要在 WebRTC工作线程中进行。</p>
 </blockquote>
-<h1 id="接口介绍"><a href="#接口介绍" class="headerlink" title="接口介绍"></a>接口介绍</h1><p>类的声明和定义均位于 WebRtc 源码目录中的 rtc_base 目录下，分别为<code>thread.h</code> 和 <code>thread.cc</code>。辅助类包括：</p>
+<h1 id="接口介绍"><a href="#接口介绍" class="headerlink" title="接口介绍"></a>接口介绍</h1><p>类的声明和定义均位于 WebRTC源码目录中的 rtc_base 目录下，分别为<code>thread.h</code> 和 <code>thread.cc</code>。辅助类包括：</p>
 <p><code>ThreadManager</code>、<code>Runnable</code>、<code>AutoThread</code>、<code>AutoSocketServerThread</code>，下面将逐一介绍。</p>
 <h2 id="RTC-DISALLOW-COPY-AND-ASSIGN"><a href="#RTC-DISALLOW-COPY-AND-ASSIGN" class="headerlink" title="RTC_DISALLOW_COPY_AND_ASSIGN"></a>RTC_DISALLOW_COPY_AND_ASSIGN</h2><p><code>RTC_DISALLOW_COPY_AND_ASSIGN</code> 和 <code>RTC_DISALLOW_ASSIGN</code> 配合使用，通过禁用类的拷贝构造函数 和 <code>=</code> 操作符，提高代码的安全性。</p>
 <h2 id="rtc-ThreadManager"><a href="#rtc-ThreadManager" class="headerlink" title="rtc::ThreadManager"></a>rtc::ThreadManager</h2><p><code>ThreadManager</code>为单实例类；</p>
@@ -108,11 +108,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzlc.github.io/2018/03/30/WebRtc-源码分析之-rtc-Thread/" data-id="cjfd2uph30007kwbw9i9kpbtz" class="article-share-link">分享</a>
+      <a data-url="https://zzlc.github.io/2018/03/30/WebRtc-源码分析之-rtc-Thread/" data-id="cjfvo80pe0008kgbwfsswahob" class="article-share-link">分享</a>
       
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WebRtc-rtc-Thread/">WebRtc rtc::Thread</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WebRTC-Thread/">WebRTC::Thread</a></li></ul>
 
     </footer>
   </div>
