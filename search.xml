@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>Linux 下开发基于 webrtc 的实时音视频 SDK</title>
+      <link href="/2019/01/23/Linux-%E4%B8%8B%E5%BC%80%E5%8F%91%E5%9F%BA%E4%BA%8E-webrtc-%E7%9A%84%E5%AE%9E%E6%97%B6%E9%9F%B3%E8%A7%86%E9%A2%91-SDK/"/>
+      <url>/2019/01/23/Linux-%E4%B8%8B%E5%BC%80%E5%8F%91%E5%9F%BA%E4%BA%8E-webrtc-%E7%9A%84%E5%AE%9E%E6%97%B6%E9%9F%B3%E8%A7%86%E9%A2%91-SDK/</url>
+      
+        <content type="html"><![CDATA[<p>在 Linux 平台下开发实时通话 SDK 其实是主要应用于未来的 IOT 行业。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> RTC </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> webrtc Linux Ubuntu g++ </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Android AEC 无效的解决方案</title>
       <link href="/2019/01/23/Android-AEC-%E6%97%A0%E6%95%88%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"/>
       <url>/2019/01/23/Android-AEC-%E6%97%A0%E6%95%88%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</url>
@@ -17,6 +42,12 @@
           
       </categories>
       
+      
+        <tags>
+            
+            <tag> Android AEC 16KHz </tag>
+            
+        </tags>
       
     </entry>
     
