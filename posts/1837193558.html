@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Android AEC 16KHz," />
 
 
 
@@ -77,16 +77,18 @@
 
 
 
-<meta name="description" content="音视频，流媒体开发者的博客，专业而不局限!">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Gobert 的博客">
-<meta property="og:url" content="https://zzlc.github.io/tags/Android-AEC-16KHz/index.html">
+<meta name="description" content="Android 端回声消除模块在某些机型上面需要使用 16kHz 的采样率输入，否则将会产生回声问题，为此设计此特殊机型下发服务，在 Android 端启动时查询其是否在此特殊名单中，是则强制为 16kHz 采样率，否则使用默认的 48/44.1 kHz 采样率。 因为只有部分机型才会出现此类问题，并且会不断产生新的机型出现，如果在代码中写 HardCode，那么产品的发布将会很被动，因为随时可能">
+<meta name="keywords" content="Android AEC 16KHz">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android AEC 无效的解决方案">
+<meta property="og:url" content="https://zzlc.github.io/posts/1837193558.html">
 <meta property="og:site_name" content="Gobert 的博客">
-<meta property="og:description" content="音视频，流媒体开发者的博客，专业而不局限!">
+<meta property="og:description" content="Android 端回声消除模块在某些机型上面需要使用 16kHz 的采样率输入，否则将会产生回声问题，为此设计此特殊机型下发服务，在 Android 端启动时查询其是否在此特殊名单中，是则强制为 16kHz 采样率，否则使用默认的 48/44.1 kHz 采样率。 因为只有部分机型才会出现此类问题，并且会不断产生新的机型出现，如果在代码中写 HardCode，那么产品的发布将会很被动，因为随时可能">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-09T07:40:26.557Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Gobert 的博客">
-<meta name="twitter:description" content="音视频，流媒体开发者的博客，专业而不局限!">
+<meta name="twitter:title" content="Android AEC 无效的解决方案">
+<meta name="twitter:description" content="Android 端回声消除模块在某些机型上面需要使用 16kHz 的采样率输入，否则将会产生回声问题，为此设计此特殊机型下发服务，在 Android 端启动时查询其是否在此特殊名单中，是则强制为 16kHz 采样率，否则使用默认的 48/44.1 kHz 采样率。 因为只有部分机型才会出现此类问题，并且会不断产生新的机型出现，如果在代码中写 HardCode，那么产品的发布将会很被动，因为随时可能">
 
 
 
@@ -116,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="https://zzlc.github.io/tags/Android-AEC-16KHz/"/>
+  <link rel="canonical" href="https://zzlc.github.io/posts/1837193558.html"/>
 
 
 
 
 
-  <title>标签: Android AEC 16KHz | Gobert 的博客</title>
+  <title>Android AEC 无效的解决方案 | Gobert 的博客</title>
   
 
 
@@ -138,7 +140,7 @@
   
     
   
-  <div class="container sidebar-position-always ">
+  <div class="container sidebar-position-always page-post-detail">
     <div class="headband"></div>
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
@@ -254,54 +256,213 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h2>Android AEC 16KHz<small>标签</small>
-        </h2>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zzlc.github.io/posts/1837193558.html">
 
-      <h3 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gobert">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Gobert 的博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/posts/1837193558.html" itemprop="url">
-              
-                <span itemprop="name">Android AEC 无效的解决方案</span>
-              
-            </a>
         
-      </h3>
+          <h2 class="post-title" itemprop="name headline">Android AEC 无效的解决方案</h2>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-01-23T10:12:21+08:00"
-              content="2019-01-23" >
-          01-23
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-23T10:12:21+08:00">
+                2019-01-23
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/RTC/" itemprop="url" rel="index">
+                    <span itemprop="name">RTC</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/posts/1837193558.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/posts/1837193558.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Android 端回声消除模块在某些机型上面需要使用 16kHz 的采样率输入，否则将会产生回声问题，为此设计此特殊机型下发服务，在 Android 端启动时查询其是否在此特殊名单中，是则强制为 16kHz 采样率，否则使用默认的 48/44.1 kHz 采样率。</p>
+<p>因为只有部分机型才会出现此类问题，并且会不断产生新的机型出现，如果在代码中写 HardCode，那么产品的发布将会很被动，因为随时可能会有新的问题机型产生，为此开发一套特殊机型下发的服务，在 APP 启动时向此服务发起请求，校验此机型是否需要配置为 16KHz，然后再启动 RTC 进行音视频通话。此服务通过 Go 进行开发。</p>
+<p>GitHub 地址为 ：<a href="https://github.com/zzlc/rtc-aecm-android" target="_blank" rel="noopener">https://github.com/zzlc/rtc-aecm-android</a></p>
+<h2 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h2><p>启动命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go run main.go -addr=&quot;127.0.0.1:6688&quot; -prefix=&quot;/v1/aecm/&quot; -user=&quot;root&quot; -password=&quot;123456&quot;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>实际部署后根据实际目标名称进行启动，但启动参数不变，可通过 -h 查看帮助。</p>
+</blockquote>
+<h2 id="Android-端查询接口"><a href="#Android-端查询接口" class="headerlink" title="Android 端查询接口"></a>Android 端查询接口</h2><p>API 查询接口提供两种，一是查询指定 <code>Model</code> 是否存在于此白名单列表中，二是查询所有的白名单列表；</p>
+<h3 id="1、查询指定-Model"><a href="#1、查询指定-Model" class="headerlink" title="1、查询指定 Model"></a>1、查询指定 <code>Model</code></h3><blockquote>
+<p>这里及以后均假设 SEV_ADDR 即为 服务器地址。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Request Url:</span><br><span class="line">SEV_ADDR/v1/aecm</span><br><span class="line">Method: OPTIONS</span><br><span class="line"></span><br><span class="line">Request Headers:</span><br><span class="line">model=xxx</span><br><span class="line"></span><br><span class="line">Result:</span><br><span class="line">200 ok</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>通过返回 http status 判断 xxx 是否在白名单中，200 为是，否则为 否。</p>
+</blockquote>
+<h3 id="2、查询所有白名单"><a href="#2、查询所有白名单" class="headerlink" title="2、查询所有白名单"></a>2、查询所有白名单</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Request Url:</span><br><span class="line">SEV_ADDR/v1/aecm</span><br><span class="line">Method: QUERY</span><br><span class="line"></span><br><span class="line">Result:</span><br><span class="line">200 ok</span><br><span class="line">Content type: text/json</span><br><span class="line">body: json string</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果返回 200 ok，则说明查询成功，可通过 content body 的 json string 进行解析，格式如下：</p>
+</blockquote>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"7"</span>: &#123;</span><br><span class="line">        <span class="attr">"author"</span>: <span class="string">"gobert"</span>,</span><br><span class="line">        <span class="attr">"brand"</span>: <span class="string">"postman_brand"</span>,</span><br><span class="line">        <span class="attr">"insertTime"</span>: <span class="string">"2019-01-10 15:19:37"</span>,</span><br><span class="line">        <span class="attr">"model"</span>: <span class="string">"redmi_note4"</span>,</span><br><span class="line">        <span class="attr">"osVersion"</span>: <span class="string">"Android 6.2"</span>,</span><br><span class="line">        <span class="attr">"packageName"</span>: <span class="string">"com.org.xxx"</span>,</span><br><span class="line">        <span class="attr">"sdkVersion"</span>: <span class="string">"0.0.0"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"8"</span>: &#123;</span><br><span class="line">        <span class="attr">"author"</span>: <span class="string">"gobert"</span>,</span><br><span class="line">        <span class="attr">"brand"</span>: <span class="string">"postman_brand"</span>,</span><br><span class="line">        <span class="attr">"insertTime"</span>: <span class="string">"2019-01-10 15:19:39"</span>,</span><br><span class="line">        <span class="attr">"model"</span>: <span class="string">"redmi_note4"</span>,</span><br><span class="line">        <span class="attr">"osVersion"</span>: <span class="string">"Android 6.2"</span>,</span><br><span class="line">        <span class="attr">"packageName"</span>: <span class="string">"com.org.xxx"</span>,</span><br><span class="line">        <span class="attr">"sdkVersion"</span>: <span class="string">"0.0.0"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="添加新机型"><a href="#添加新机型" class="headerlink" title="添加新机型"></a>添加新机型</h2><p>通过以下 API 即可添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Request Url:</span><br><span class="line">SEV_ADDR/v1/aecm</span><br><span class="line">Method: ADD</span><br><span class="line"></span><br><span class="line">Request Headers:</span><br><span class="line">osVersion=Android 6.2</span><br><span class="line">brand=postman_brand</span><br><span class="line">model=xxx</span><br><span class="line">sdkVersion=1.0.0</span><br><span class="line">packageName=com.org.xxx</span><br><span class="line">author=gobert</span><br><span class="line"></span><br><span class="line">Result:</span><br><span class="line">200 ok</span><br></pre></td></tr></table></figure>
+<h2 id="删除已有机型"><a href="#删除已有机型" class="headerlink" title="删除已有机型"></a>删除已有机型</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Request Url:</span><br><span class="line">SEV_ADDR/v1/aecm</span><br><span class="line">Method:DELETE</span><br><span class="line"></span><br><span class="line">Request Headers:</span><br><span class="line">model=xxx</span><br><span class="line"></span><br><span class="line">Result:</span><br><span class="line">200 ok</span><br></pre></td></tr></table></figure>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android-AEC-16KHz/" rel="tag"># Android AEC 16KHz</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/4152150583.html" rel="next" title="WebRtc Windows develop patch 记录">
+                <i class="fa fa-chevron-left"></i> WebRtc Windows develop patch 记录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/3440048822.html" rel="prev" title="Linux 基于 webrtc 进行流媒体开发">
+                Linux 基于 webrtc 进行流媒体开发 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -309,6 +470,17 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
 
         </div>
         
@@ -329,8 +501,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -410,6 +591,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#启动服务"><span class="nav-number">1.</span> <span class="nav-text">启动服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-端查询接口"><span class="nav-number">2.</span> <span class="nav-text">Android 端查询接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、查询指定-Model"><span class="nav-number">2.1.</span> <span class="nav-text">1、查询指定 Model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、查询所有白名单"><span class="nav-number">2.2.</span> <span class="nav-text">2、查询所有白名单</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加新机型"><span class="nav-number">3.</span> <span class="nav-text">添加新机型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除已有机型"><span class="nav-number">4.</span> <span class="nav-text">删除已有机型</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -563,6 +760,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
   
 
 
@@ -940,26 +1141,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
