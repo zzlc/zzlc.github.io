@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>webrtc on linux alsa audio device blocking</title>
+      <link href="/posts/a2661658.html"/>
+      <url>/posts/a2661658.html</url>
+      
+        <content type="html"><![CDATA[<p>基于 webrtc 开发嵌入式 linux 实时音视频，其中音频 alsa 模块存在一个不小的 Bug，在较多的声卡上存在播放失败并阻塞的严重问题，问题如下：<br>存在大概率的声卡打开失败，即 <code>snd_pcm_prepare</code> 失败的概率，在 源码中 webrtc 会尝试通过 <code>ErrorRecovery</code> 恢复声卡至正确的状态，但是执行到 <code>snd_pcm_recover</code> 输出 <code>underrun occurred</code> 错误信息后便阻塞了。</p><p>原因在于 <code>snd_pcm_recover</code> 源码中会调动 <code>snd_pcm_prepare</code> 方法尝试恢复声卡状态，但是 <code>snd_pcm_prepare</code> 会首先获取 <code>snd_pcm_t</code> 中的线程锁 <code>pthread_mutex_t</code>，而 webrtc 在 <code>AudioDeviceLinuxALSA::StartPlayout()</code> 方法中是先启动播放线程，然后再调用 <code>snd_pcm_prepare</code> 准备好声卡设备，导致线程有一定概率启动速度早于父线程中对 <code>snd_pcm_prepare</code> 的调用，最终播放线程中在执行 <code>snd_pcm_avail_update</code> 失败，触发 <code>ErrorRecovery</code> 方法，内部有线程锁，导致线程死锁，整个 APP Blocking；</p><p>修复方式比较简单，修改 <code>audio_device_alsa_linux.cc</code> 文件中的 <code>StartPlayout</code> 方法如下：</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int32_t</span> AudioDeviceLinuxALSA::StartPlayout() &#123;</span><br><span class="line">  <span class="keyword">if</span> (!_playIsInitialized) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (_playing) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  _playing = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">  _playoutFramesLeft = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> (!_playoutBuffer)</span><br><span class="line">    _playoutBuffer = <span class="keyword">new</span> <span class="keyword">int8_t</span>[_playoutBufferSizeIn10MS];</span><br><span class="line">  <span class="keyword">if</span> (!_playoutBuffer) &#123;</span><br><span class="line">    RTC_LOG(LS_ERROR) &lt;&lt; <span class="string">"failed to alloc playout buf"</span>;</span><br><span class="line">    _playing = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">int</span> errVal = LATE(snd_pcm_prepare)(_handlePlayout);</span><br><span class="line">  <span class="keyword">if</span> (errVal &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    RTC_LOG(LS_ERROR) &lt;&lt; <span class="string">"playout snd_pcm_prepare failed ("</span></span><br><span class="line">                      &lt;&lt; LATE(snd_strerror)(errVal) &lt;&lt; <span class="string">")\n"</span>;</span><br><span class="line">    <span class="comment">// just log error</span></span><br><span class="line">    <span class="comment">// if snd_pcm_open fails will return -1</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 将线程的启动放到 snd_pcm_prepare 之后再启动</span></span><br><span class="line">  <span class="comment">// PLAYOUT</span></span><br><span class="line">  _ptrThreadPlay.reset(<span class="keyword">new</span> rtc::PlatformThread(</span><br><span class="line">      PlayThreadFunc, <span class="keyword">this</span>, <span class="string">"webrtc_audio_module_play_thread"</span>));</span><br><span class="line">  _ptrThreadPlay-&gt;Start();</span><br><span class="line">  _ptrThreadPlay-&gt;SetPriority(rtc::kRealtimePriority);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> RTC </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> WebRTC Linux alsa </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>mediasoup 公网环境部署</title>
       <link href="/posts/3784820804.html"/>
       <url>/posts/3784820804.html</url>
