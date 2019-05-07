@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="WebRTC RTT 丢包率," />
 
 
 
@@ -77,16 +77,18 @@
 
 
 
-<meta name="description" content="音视频，流媒体开发者的博客，专业而不局限!">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Gobert 的博客">
-<meta property="og:url" content="https://www.qnrtc.com/page/2/index.html">
+<meta name="description" content="WebRTC 自 M68 版本推出新的重载方法 GetStats 以后，使用新的接口便再也获取不到发送端的丢包率了（包括所有的 Native 端和 Web 端），原因是在 void OnStatsDelivered(const rtc::scoped_refptr&amp;lt;const RTCStatsReport&amp;gt;&amp;amp; report) 回调中返回的结构体 RTCStatsReport 中">
+<meta name="keywords" content="WebRTC RTT 丢包率">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WebRTC 发送端无法获取丢包率的解决办法，以及如何获取 rtt">
+<meta property="og:url" content="https://www.qnrtc.com/posts/21d9b983.html">
 <meta property="og:site_name" content="Gobert 的博客">
-<meta property="og:description" content="音视频，流媒体开发者的博客，专业而不局限!">
+<meta property="og:description" content="WebRTC 自 M68 版本推出新的重载方法 GetStats 以后，使用新的接口便再也获取不到发送端的丢包率了（包括所有的 Native 端和 Web 端），原因是在 void OnStatsDelivered(const rtc::scoped_refptr&amp;lt;const RTCStatsReport&amp;gt;&amp;amp; report) 回调中返回的结构体 RTCStatsReport 中">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-07T10:02:14.894Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Gobert 的博客">
-<meta name="twitter:description" content="音视频，流媒体开发者的博客，专业而不局限!">
+<meta name="twitter:title" content="WebRTC 发送端无法获取丢包率的解决办法，以及如何获取 rtt">
+<meta name="twitter:description" content="WebRTC 自 M68 版本推出新的重载方法 GetStats 以后，使用新的接口便再也获取不到发送端的丢包率了（包括所有的 Native 端和 Web 端），原因是在 void OnStatsDelivered(const rtc::scoped_refptr&amp;lt;const RTCStatsReport&amp;gt;&amp;amp; report) 回调中返回的结构体 RTCStatsReport 中">
 
 
 
@@ -116,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="https://www.qnrtc.com/page/2/"/>
+  <link rel="canonical" href="https://www.qnrtc.com/posts/21d9b983.html"/>
 
 
 
 
 
-  <title>Gobert 的博客</title>
+  <title>WebRTC 发送端无法获取丢包率的解决办法，以及如何获取 rtt | Gobert 的博客</title>
   
 
 
@@ -138,8 +140,7 @@
   
     
   
-  <div class="container sidebar-position-always 
-  page-home">
+  <div class="container sidebar-position-always page-post-detail">
     <div class="headband"></div>
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
@@ -254,9 +255,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -269,7 +270,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.qnrtc.com/posts/827497819.html">
+    <link itemprop="mainEntityOfPage" href="https://www.qnrtc.com/posts/21d9b983.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Gobert">
@@ -286,9 +287,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/827497819.html" itemprop="url">BOOST 在 Windows 下通过 VS 进行编译</a></h2>
+          <h2 class="post-title" itemprop="name headline">WebRTC 发送端无法获取丢包率的解决办法，以及如何获取 rtt</h2>
         
 
         <div class="post-meta">
@@ -300,772 +299,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-12T14:19:16+08:00">
-                2018-03-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          下载 Boost 源码从官方下载 Boost 源码，之前用的一直是 boost 1.58.0，今天去官方网站看到最新的已经是 boost 1.66.0，最新版本的下载地址是：下载地址
-建议使用迅雷进行下载，通过浏览器下的比较慢。下载后解压到自己的开源项目目录下，如：E:\OpenSource\boo
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/posts/827497819.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.qnrtc.com/posts/1178514105.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Gobert">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Gobert 的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/1178514105.html" itemprop="url">C++ 开源日志库 spdlog</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-02T00:04:36+08:00">
-                2018-03-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          C++日志组件 spdlogspdlog 是基于C++ 11的开源的轻量级的日志组件，引入也非常简单，仅仅需要引入头文件就可以了。
-线程安全命名空间 spdlog 之下的大多数函数都是线程安全的，除了：123void spdlog::set_pattern(const std::string&amp
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/posts/1178514105.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.qnrtc.com/posts/3530668087.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Gobert">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Gobert 的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/3530668087.html" itemprop="url">Windows 10 安装 .NetFrameWork 3.5</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-26T14:05:19+08:00">
-                2018-02-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/OPC/" itemprop="url" rel="index">
-                    <span itemprop="name">OPC</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          Windows 10 下安装 .NetFrameWork 3.5某些软件依赖.NetFrameWork 3.5,但是通过系统自带的 启动或关闭 Windows 功能的界面接口去添加 .NetFrameWork 3.5 会失败，即使先删除了 .NetFrameWork 4.7 也是会失败，比如会报如下
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/posts/3530668087.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.qnrtc.com/posts/2298614161.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Gobert">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Gobert 的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/2298614161.html" itemprop="url">Windows 10 开发部署支持 Windows XP 和 Windows Server 2003 的应用程序</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-22T11:47:18+08:00">
-                2018-02-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/OPC/" itemprop="url" rel="index">
-                    <span itemprop="name">OPC</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          场景在 Windows 10 下通过 VS2015 开发的桌面程序，部署到 Windows Server 2003 系统中，运行不起来，运行会报 “不是有效的 Win32 应用程序” 或者是 “不能定位 XXX.XXX 到 api-ms-win-…-…-l1-1-0.dll”，这里原因有两个，一个是
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/posts/2298614161.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.qnrtc.com/posts/2377369958.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Gobert">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Gobert 的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/2377369958.html" itemprop="url">GitHub 博客搭建记录</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-29T09:24:07+08:00">
-                2018-01-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Life/" itemprop="url" rel="index">
-                    <span itemprop="name">Life</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          
-
-博客搭建记录
-MarkDown 如何生成文章目录
-创建分类页面
-创建新博文
-开启统计功能
-Url 去除中文
-评论管理
-
-
-博客搭建记录本文主要用于记录本博客在搭建过程中的一些细节，以免忘记！内容、格式较混乱。
-MarkDown 如何生成文章目录在段落中填写 [TOC] 既可显示全文内容的目录结构
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/posts/2377369958.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.qnrtc.com/posts/3694004066.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Gobert">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Gobert 的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/3694004066.html" itemprop="url">Windows 下编译 WebRTC</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-28T23:58:14+08:00">
-                2018-01-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-07T14:49:21+08:00">
+                2019-05-07
               </time>
             
 
@@ -1100,317 +335,31 @@ MarkDown 如何生成文章目录在段落中填写 [TOC] 既可显示全文内�
 
           
             
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          – Windows 下编译 WebRTC
-一、系统环境准备1、参考官方文档123https://webrtc.org/native-code/development/   //官方编译指导首页https://webrtc.org/native-code/development/prerequisit
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/posts/3694004066.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.qnrtc.com/posts/1195716763.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Gobert">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Gobert 的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/1195716763.html" itemprop="url">janus 服务器搭建</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-28T23:40:40+08:00">
-                2018-01-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/RTC/" itemprop="url" rel="index">
-                    <span itemprop="name">RTC</span>
-                  </a>
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
                 </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          －－Ubuntu 下 Janus Server 搭建笔记
-一 、简介Janus 是一个开源的，通过 C 语言实现了对 WebRTC 支持的 Gateway；Janus 自身实现得很简单，提供插件机制来支持不同的业务逻辑，配合官方自带插件就可以用来实现高效的 Media Server 服务。
-本文主要
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/posts/1195716763.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.qnrtc.com/posts/2738500025.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Gobert">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Gobert 的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/posts/2738500025.html" itemprop="url">2018 目标</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <a href="/posts/21d9b983.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/posts/21d9b983.html" itemprop="commentsCount"></span>
+                </a>
               </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-28T15:50:35+08:00">
-                2018-01-28
-              </time>
             
-
-            
-
-            
-          </span>
+          
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Life/" itemprop="url" rel="index">
-                    <span itemprop="name">Life</span>
-                  </a>
-                </span>
+          
 
-                
-                
-              
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
             </span>
           
 
           
 
           
-          
-
-          
-
-          
-
-          
 
           
 
@@ -1427,25 +376,31 @@ MarkDown 如何生成文章目录在段落中填写 [TOC] 既可显示全文内�
       
 
       
-        
-          
-          
-给自己制定一个 2018 的目标
-阅读
-阅读 5 本专业以外的书籍
-研读 java 核心技术卷1 和 卷2，以及 Android 的三本书籍，突破单平台开发的天花板，开发并上线一个自己的 Android App
-将京东上已购的情商方面的书籍读完
-再次研读一遍 《Go 并发编程》
-在线阅读 C++1
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/posts/2738500025.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+        <p>WebRTC 自 M68 版本推出新的重载方法 <code>GetStats</code> 以后，使用新的接口便再也获取不到发送端的丢包率了（包括所有的 Native 端和 Web 端），原因是在 <code>void OnStatsDelivered(const rtc::scoped_refptr&lt;const RTCStatsReport&gt;&amp; report)</code> 回调中返回的结构体 <code>RTCStatsReport</code> 中没有 <code>packets_lost</code> 的定义，只有 <code>packets_sent</code>、<code>frames_encoded</code> 等信息，默认只能获取到发送的码率、帧率，而得不到丢包率、rtt 等判断网络质量的关键信息。不过 WebRTC 底层其实已经将丢包信息、rtt 等关键信息实时统计上来了，只是 <code>PeerConnectionInterface</code> 在获取 Statistics 时，没有将相关信息打包进 <code>RTCStatsReport</code> 结构体中，那么解决办法就是：在 <code>RTCStatsReport</code> 结构体中新增定义 <code>packets_lost</code>、<code>rtt_ms</code> 字段，并为其赋值即可，下面为 Native 源码中需要修改的相关代码。</p>
+<h2 id="增加-RTCOutboundRTPStreamStats-导出结构体字段定义"><a href="#增加-RTCOutboundRTPStreamStats-导出结构体字段定义" class="headerlink" title="增加 RTCOutboundRTPStreamStats 导出结构体字段定义"></a>增加 <code>RTCOutboundRTPStreamStats</code> 导出结构体字段定义</h2><p>数据发送方数据的统计记录在 Outbound 的结构中，即：<code>RTCOutboundRTPStreamStats</code>，为其在末尾新增两个字段：</p>
+<blockquote>
+<p>文件为： api/stats/rtcstats_objects.h </p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RTCOutboundRTPStreamStats</span> <span class="title">final</span> :</span> <span class="keyword">public</span> RTCRTPStreamStats &#123;</span><br><span class="line"> <span class="keyword">public</span>:</span><br><span class="line">  WEBRTC_RTCSTATS_DECL();</span><br><span class="line"></span><br><span class="line">  RTCOutboundRTPStreamStats(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; id, <span class="keyword">int64_t</span> timestamp_us);</span><br><span class="line">  RTCOutboundRTPStreamStats(<span class="built_in">std</span>::<span class="built_in">string</span>&amp;&amp; id, <span class="keyword">int64_t</span> timestamp_us);</span><br><span class="line">  RTCOutboundRTPStreamStats(<span class="keyword">const</span> RTCOutboundRTPStreamStats&amp; other);</span><br><span class="line">  ~RTCOutboundRTPStreamStats() override;</span><br><span class="line"></span><br><span class="line">  RTCStatsMember&lt;<span class="keyword">uint32_t</span>&gt; packets_sent;</span><br><span class="line">  RTCStatsMember&lt;<span class="keyword">uint64_t</span>&gt; bytes_sent;</span><br><span class="line">  <span class="comment">// TODO(hbos): Collect and populate this value. https://bugs.webrtc.org/7066</span></span><br><span class="line">  RTCStatsMember&lt;<span class="keyword">double</span>&gt; target_bitrate;</span><br><span class="line">  RTCStatsMember&lt;<span class="keyword">uint32_t</span>&gt; frames_encoded;</span><br><span class="line">    <span class="comment">// 新增字段</span></span><br><span class="line">  RTCStatsMember&lt;<span class="keyword">uint32_t</span>&gt; packets_lost;</span><br><span class="line">  RTCStatsMember&lt;<span class="keyword">int32_t</span>&gt; rtt_ms;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="初始化新字段"><a href="#初始化新字段" class="headerlink" title="初始化新字段"></a>初始化新字段</h2><blockquote>
+<p>文件为：stats/rtcstats_objects.cc</p>
+</blockquote>
+<ul>
+<li>构造函数的初始化列表增加 <code>RTCStatsMember</code> 键值对的初始化</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">RTCOutboundRTPStreamStats::RTCOutboundRTPStreamStats(</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span>&amp;&amp; id, <span class="keyword">int64_t</span> timestamp_us)</span><br><span class="line">    : RTCRTPStreamStats(<span class="built_in">std</span>::move(id), timestamp_us),</span><br><span class="line">      packets_sent(<span class="string">"packetsSent"</span>),</span><br><span class="line">      bytes_sent(<span class="string">"bytesSent"</span>),</span><br><span class="line">      target_bitrate(<span class="string">"targetBitrate"</span>),</span><br><span class="line">      frames_encoded(<span class="string">"framesEncoded"</span>),</span><br><span class="line">      packets_lost(<span class="string">"packetsLost"</span>),</span><br><span class="line">      rtt_ms(<span class="string">"rttMs"</span>) &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>outbound-rtp</code> 中增加 Json 导出字段</li>
+</ul>
+<blockquote>
+<p>如果不增加，在上层 ToJoin 时是没有 <code>packetLost</code> 和 <code>rttMs</code> 字段的。</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// clang-format off</span></span><br><span class="line">WEBRTC_RTCSTATS_IMPL(</span><br><span class="line">    RTCOutboundRTPStreamStats, RTCRTPStreamStats, <span class="string">"outbound-rtp"</span>,</span><br><span class="line">    &amp;packets_sent,</span><br><span class="line">    &amp;bytes_sent,</span><br><span class="line">    &amp;target_bitrate,</span><br><span class="line">    &amp;frames_encoded,</span><br><span class="line">    &amp;packets_lost,</span><br><span class="line">    &amp;rtt_ms);</span><br><span class="line"><span class="comment">// clang-format on</span></span><br></pre></td></tr></table></figure>
+<h2 id="为新字段赋值"><a href="#为新字段赋值" class="headerlink" title="为新字段赋值"></a>为新字段赋值</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Provides the media independent counters (both audio and video).</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SetOutboundRTPStreamStatsFromMediaSenderInfo</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">const</span> cricket::MediaSenderInfo&amp; media_sender_info,</span></span></span><br><span class="line"><span class="function"><span class="params">    RTCOutboundRTPStreamStats* outbound_stats)</span> </span>&#123;</span><br><span class="line">  RTC_DCHECK(outbound_stats);</span><br><span class="line">  outbound_stats-&gt;ssrc = media_sender_info.ssrc();</span><br><span class="line">  <span class="comment">// TODO(hbos): Support the remote case. https://crbug.com/657856</span></span><br><span class="line">  outbound_stats-&gt;is_remote = <span class="literal">false</span>;</span><br><span class="line">  outbound_stats-&gt;packets_sent =</span><br><span class="line">      <span class="keyword">static_cast</span>&lt;<span class="keyword">uint32_t</span>&gt;(media_sender_info.packets_sent);</span><br><span class="line">  outbound_stats-&gt;bytes_sent =</span><br><span class="line">      <span class="keyword">static_cast</span>&lt;<span class="keyword">uint64_t</span>&gt;(media_sender_info.bytes_sent);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 为新字段赋值</span></span><br><span class="line">  outbound_stats-&gt;packets_lost =</span><br><span class="line">      <span class="keyword">static_cast</span>&lt;<span class="keyword">uint32_t</span>&gt;(media_sender_info.packets_lost);</span><br><span class="line">  outbound_stats-&gt;rtt_ms =</span><br><span class="line">      <span class="keyword">static_cast</span>&lt;<span class="keyword">int32_t</span>&gt;(media_sender_info.rtt_ms);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>通过 <code>PeerConnectionInterface</code> 的 <code>GetStats</code> 获取到的 <code>RTCStatsReport</code> 结构体 转换为 Json 字符串后，可以发现 <code>outbound-rtp</code> 节点中已经有了以上我们新增的 <code>packetsLost</code> 和 <code>rttMs</code> 两个字段。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    ..... 其它节点请忽略，这里只展示 outbound-rtp</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"outbound-rtp"</span>,</span><br><span class="line">        <span class="attr">"id"</span>: <span class="string">"RTCOutboundRTPAudioStream_856432637"</span>,</span><br><span class="line">        <span class="attr">"timestamp"</span>: <span class="number">1557220118008000</span>,</span><br><span class="line">        <span class="attr">"ssrc"</span>: <span class="number">856432637</span>,</span><br><span class="line">        <span class="attr">"isRemote"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">"mediaType"</span>: <span class="string">"audio"</span>,</span><br><span class="line">        <span class="attr">"trackId"</span>: <span class="string">"RTCMediaStreamTrack_sender_2"</span>,</span><br><span class="line">        <span class="attr">"transportId"</span>: <span class="string">"RTCTransport_audio_1"</span>,</span><br><span class="line">        <span class="attr">"codecId"</span>: <span class="string">"RTCCodec_audio_Outbound_111"</span>,</span><br><span class="line">        <span class="attr">"packetsSent"</span>: <span class="number">484</span>,</span><br><span class="line">        <span class="attr">"bytesSent"</span>: <span class="number">81000</span>,</span><br><span class="line">        <span class="attr">"packetsLost"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"rttMs"</span>: <span class="number">13</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"outbound-rtp"</span>,</span><br><span class="line">        <span class="attr">"id"</span>: <span class="string">"RTCOutboundRTPVideoStream_4038037569"</span>,</span><br><span class="line">        <span class="attr">"timestamp"</span>: <span class="number">1557220118008000</span>,</span><br><span class="line">        <span class="attr">"ssrc"</span>: <span class="number">4038037569</span>,</span><br><span class="line">        <span class="attr">"isRemote"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="attr">"mediaType"</span>: <span class="string">"video"</span>,</span><br><span class="line">        <span class="attr">"trackId"</span>: <span class="string">"RTCMediaStreamTrack_sender_1"</span>,</span><br><span class="line">        <span class="attr">"transportId"</span>: <span class="string">"RTCTransport_audio_1"</span>,</span><br><span class="line">        <span class="attr">"codecId"</span>: <span class="string">"RTCCodec_video_Outbound_100"</span>,</span><br><span class="line">        <span class="attr">"firCount"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"pliCount"</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="attr">"nackCount"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"qpSum"</span>: <span class="number">2883</span>,</span><br><span class="line">        <span class="attr">"packetsSent"</span>: <span class="number">559</span>,</span><br><span class="line">        <span class="attr">"bytesSent"</span>: <span class="number">579220</span>,</span><br><span class="line">        <span class="attr">"framesEncoded"</span>: <span class="number">145</span>,</span><br><span class="line">        <span class="attr">"packetsLost"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">"rttMs"</span>: <span class="number">13</span></span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>解析 Json 字符串获取 <code>packetsLost</code> 前后两次的差值，除以时间差便可以获取到此时间段内的丢包率了。</p>
+
       
     </div>
     
@@ -1460,14 +415,36 @@ MarkDown 如何生成文章目录在段落中填写 [TOC] 既可显示全文内�
 
     <footer class="post-footer">
       
-
+        <div class="post-tags">
+          
+            <a href="/tags/WebRTC-RTT-丢包率/" rel="tag"># WebRTC RTT 丢包率</a>
+          
+        </div>
       
 
       
+      
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/a2661658.html" rel="next" title="webrtc on linux alsa audio device blocking">
+                <i class="fa fa-chevron-left"></i> webrtc on linux alsa audio device blocking
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
       
-        <div class="post-eof"></div>
+
+      
       
     </footer>
   </div>
@@ -1477,14 +454,11 @@ MarkDown 如何生成文章目录在段落中填写 [TOC] 既可显示全文内�
   </article>
 
 
-    
-  </section>
 
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
-  </nav>
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -1492,6 +466,17 @@ MarkDown 如何生成文章目录在段落中填写 [TOC] 既可显示全文内�
 
 
           
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
 
         </div>
         
@@ -1512,8 +497,17 @@ MarkDown 如何生成文章目录在段落中填写 [TOC] 既可显示全文内�
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -1593,6 +587,22 @@ MarkDown 如何生成文章目录在段落中填写 [TOC] 既可显示全文内�
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#增加-RTCOutboundRTPStreamStats-导出结构体字段定义"><span class="nav-number">1.</span> <span class="nav-text">增加 RTCOutboundRTPStreamStats 导出结构体字段定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化新字段"><span class="nav-number">2.</span> <span class="nav-text">初始化新字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为新字段赋值"><span class="nav-number">3.</span> <span class="nav-text">为新字段赋值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证"><span class="nav-number">4.</span> <span class="nav-text">验证</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1746,6 +756,10 @@ MarkDown 如何生成文章目录在段落中填写 [TOC] 既可显示全文内�
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
   
 
 
@@ -2123,26 +1137,6 @@ MarkDown 如何生成文章目录在段落中填写 [TOC] 既可显示全文内�
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
