@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="Gobert 的博客">
 <meta property="og:description" content="WebRTC 自 M68 版本推出新的重载方法 GetStats 以后，使用新的接口便再也获取不到发送端的丢包率了（包括所有的 Native 端和 Web 端），原因是在 void OnStatsDelivered(const rtc::scoped_refptr&amp;lt;const RTCStatsReport&amp;gt;&amp;amp; report) 回调中返回的结构体 RTCStatsReport 中">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-07T10:54:28.159Z">
+<meta property="og:updated_time" content="2019-05-08T01:38:13.057Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WebRTC 发送端无法获取丢包率的解决办法，以及如何获取 rtt">
 <meta name="twitter:description" content="WebRTC 自 M68 版本推出新的重载方法 GetStats 以后，使用新的接口便再也获取不到发送端的丢包率了（包括所有的 Native 端和 Web 端），原因是在 void OnStatsDelivered(const rtc::scoped_refptr&amp;lt;const RTCStatsReport&amp;gt;&amp;amp; report) 回调中返回的结构体 RTCStatsReport 中">
@@ -389,6 +389,10 @@
 <li>构造函数的初始化列表增加 <code>RTCStatsMember</code> 键值对的初始化</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">RTCOutboundRTPStreamStats::RTCOutboundRTPStreamStats(</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span>&amp;&amp; id, <span class="keyword">int64_t</span> timestamp_us)</span><br><span class="line">    : RTCRTPStreamStats(<span class="built_in">std</span>::move(id), timestamp_us),</span><br><span class="line">      packets_sent(<span class="string">"packetsSent"</span>),</span><br><span class="line">      bytes_sent(<span class="string">"bytesSent"</span>),</span><br><span class="line">      target_bitrate(<span class="string">"targetBitrate"</span>),</span><br><span class="line">      frames_encoded(<span class="string">"framesEncoded"</span>),</span><br><span class="line">      packets_lost(<span class="string">"packetsLost"</span>),</span><br><span class="line">      rtt_ms(<span class="string">"rttMs"</span>) &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>拷贝构造函数初始化</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">RTCOutboundRTPStreamStats::RTCOutboundRTPStreamStats(</span><br><span class="line">    <span class="keyword">const</span> RTCOutboundRTPStreamStats&amp; other)</span><br><span class="line">    : RTCRTPStreamStats(other),</span><br><span class="line">      packets_sent(other.packets_sent),</span><br><span class="line">      bytes_sent(other.bytes_sent),</span><br><span class="line">      target_bitrate(other.target_bitrate),</span><br><span class="line">      frames_encoded(other.frames_encoded),</span><br><span class="line">      packets_lost(other.packets_lost),</span><br><span class="line">      rtt_ms(other.rtt_ms) &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><code>outbound-rtp</code> 中增加 Json 导出字段</li>
 </ul>
